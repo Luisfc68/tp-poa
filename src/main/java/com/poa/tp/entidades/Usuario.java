@@ -77,4 +77,8 @@ public class Usuario {
 		this.canjes = canjes;
 	}
 	
+	public String toString() {
+		return nombre+": "+puntos;
+	}
+	
 }

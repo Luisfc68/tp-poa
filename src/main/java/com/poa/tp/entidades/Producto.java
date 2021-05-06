@@ -48,5 +48,8 @@ public class Producto {
 		this.stock = stock;
 	}
 	
+	public String toString() {
+		return getDescripcion();
+	}
 	
 }

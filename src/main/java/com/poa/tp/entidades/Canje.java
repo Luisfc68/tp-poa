@@ -78,4 +78,11 @@ public class Canje {
 		this.items = items;
 	}
 	
+	public String toString() {
+		String msg = "\nCanje: \n";
+		for(Item i : items)
+			msg+= i.toString()+"\n";
+		return msg;
+	}
+	
 }

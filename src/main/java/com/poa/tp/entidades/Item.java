@@ -41,4 +41,8 @@ public class Item {
 		this.producto = producto;
 	}
 	
+	public String toString() {
+		return "Item: "+producto.toString()+" - "+cantidad;
+	}
+	
 }
