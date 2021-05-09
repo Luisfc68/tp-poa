@@ -1,10 +1,27 @@
 package com.poa.tp.entidades;
 
-public class Producto {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name="producto")
+@Table(name="producto")
+public class Producto implements Cloneable{
 	
+	@Id
+	@GeneratedValue
+	@Column(name="id_producto")
 	private int id;
+	
+	@Column(name="costo")
 	private int costo;
+	
+	@Column(name="descripcion")
 	private String descripcion;
+	
+	@Column(name="stock")
 	private boolean stock;
 	
 	public Producto() {}
@@ -46,6 +63,15 @@ public class Producto {
 
 	public void setStock(boolean stock) {
 		this.stock = stock;
+	}
+	
+	public Producto clone() {
+		Producto copia = new Producto();
+		copia.setCosto(this.costo);
+		copia.setId(this.id);
+		copia.setDescripcion(this.descripcion);
+		copia.setStock(this.stock);
+		return copia;
 	}
 	
 	public String toString() {
