@@ -3,6 +3,7 @@ package com.poa.tp.datos;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,22 +21,30 @@ public class ProductoDao implements Dao<Producto>{
 	@Autowired
 	private SessionFactory sf;
 	
-	public Producto insert(Producto o) {
-		Session s = sf.openSession();
-		Transaction t = s.beginTransaction();
-		s.save(o);
-		t.commit();
-		s.close();
-		return o;
+	public Producto insert(Producto o) throws CrudException{
+		try {
+			Session s = sf.openSession();
+			Transaction t = s.beginTransaction();
+			s.save(o);
+			t.commit();
+			s.close();
+			return o;
+		}catch(RollbackException e) {
+			throw new CrudException("El producto no cumple con las caracteristicas para ser registrado");
+		}
 	}
 
-	public Producto update(Producto o) {
-		Session s = sf.openSession();
-		Transaction t = s.beginTransaction();
-		s.update(o);
-		t.commit();
-		s.close();
-		return o;
+	public Producto update(Producto o) throws CrudException{
+		try {
+			Session s = sf.openSession();
+			Transaction t = s.beginTransaction();
+			s.update(o);
+			t.commit();
+			s.close();
+			return o;
+		}catch(RollbackException e) {
+			throw new CrudException("La actualizacion no cumple con las reglas requeridas para ser realizada");
+		}
 	}
 
 	public Producto delete(Producto o) throws CrudException {
