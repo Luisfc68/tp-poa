@@ -22,8 +22,9 @@ public class ProductoDao implements Dao<Producto>{
 	private SessionFactory sf;
 	
 	public Producto insert(Producto o) throws CrudException{
+		Session s = null;
 		try {
-			Session s = sf.openSession();
+			s = sf.openSession();
 			Transaction t = s.beginTransaction();
 			s.save(o);
 			t.commit();
@@ -31,12 +32,16 @@ public class ProductoDao implements Dao<Producto>{
 			return o;
 		}catch(RollbackException e) {
 			throw new CrudException("El producto no cumple con las caracteristicas para ser registrado");
+		}finally {
+			if(s!=null)
+				s.close();
 		}
 	}
 
 	public Producto update(Producto o) throws CrudException{
+		Session s = null;
 		try {
-			Session s = sf.openSession();
+			s = sf.openSession();
 			Transaction t = s.beginTransaction();
 			s.update(o);
 			t.commit();
@@ -44,6 +49,9 @@ public class ProductoDao implements Dao<Producto>{
 			return o;
 		}catch(RollbackException e) {
 			throw new CrudException("La actualizacion no cumple con las reglas requeridas para ser realizada");
+		}finally {
+			if(s!=null)
+				s.close();
 		}
 	}
 
