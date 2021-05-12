@@ -67,6 +67,8 @@ public class ProductoDao implements Dao<Producto>{
 			return borrado;
 		}catch(EntityNotFoundException e) {
 			throw new CrudException("El producto que se ha intentado borrar no existe");
+		}catch(RollbackException E) { 
+			throw new CrudException("No es posible borrar este producto");
 		}finally{
 			if(s!=null)
 				s.close();
