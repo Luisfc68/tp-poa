@@ -1,10 +1,11 @@
 package com.poa.tp.entidades;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -16,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="usuario")
 @Table(name="usuario")
-public class Usuario {
+public class Usuario implements Cloneable{
 	
 	@Id
 	@GeneratedValue
@@ -37,11 +38,11 @@ public class Usuario {
 	private String correo;
 	
 	@JsonIgnoreProperties({"items"})
-	@OneToMany(mappedBy="usuario")
-	private List<Canje> canjes;
+	@OneToMany(mappedBy="usuario",fetch=FetchType.EAGER)
+	private Set<Canje> canjes;
 	
 	public Usuario(){
-		this.setCanjes(new ArrayList<Canje>());
+		this.setCanjes(new HashSet<Canje>());
 	}
 
 	public Usuario(int id, String nombre, String contrasena, int puntos, String correo) {
@@ -97,16 +98,31 @@ public class Usuario {
 		this.correo = correo;
 	}
 
-	public List<Canje> getCanjes() {
+	public Set<Canje> getCanjes() {
 		return canjes;
 	}
 
-	public void setCanjes(List<Canje> canjes) {
+	public void setCanjes(Set<Canje> canjes) {
 		this.canjes = canjes;
 	}
 	
 	public String toString() {
 		return nombre+": "+puntos;
+	}
+	
+	public Usuario clone() {
+		Usuario copia = new Usuario();
+		copia.setCanjes(this.canjes);
+		copia.setContrasena(this.contrasena);
+		copia.setCorreo(this.correo);
+		copia.setId(this.id);
+		copia.setNombre(this.nombre);
+		copia.setPuntos(this.puntos);
+		return copia;
+	}
+	
+	public int hashCode() {
+		return id;
 	}
 	
 }

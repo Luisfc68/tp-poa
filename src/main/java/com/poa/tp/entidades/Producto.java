@@ -78,4 +78,8 @@ public class Producto implements Cloneable{
 		return getDescripcion();
 	}
 	
+	public int hashCode() {
+		return id;
+	}
+	
 }

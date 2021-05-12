@@ -1,11 +1,13 @@
 package com.poa.tp.entidades;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +21,7 @@ import com.poa.tp.excepciones.UsuarioPobreException;
 
 @Entity(name="canje")
 @Table(name="canje")
-public class Canje {
+public class Canje implements Cloneable{
 	
 	@Id
 	@GeneratedValue
@@ -34,12 +36,12 @@ public class Canje {
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy="canje")
-	private List<Item> items;
+	@OneToMany(mappedBy="canje",fetch=FetchType.EAGER)
+	private Set<Item> items;
 	
 	public Canje() {}
 	
-	public Canje(Usuario usuario, List<Item> items) {
+	public Canje(Usuario usuario, Set<Item> items) {
 		this.usuario = usuario;
 		this.items = items;
 		for(Item i : items)
@@ -95,11 +97,11 @@ public class Canje {
 		this.usuario = usuario;
 	}
 
-	public List<Item> getItems() {
+	public Set<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Item> items) {
+	public void setItems(Set<Item> items) {
 		this.items = items;
 	}
 	
@@ -108,6 +110,27 @@ public class Canje {
 		for(Item i : items)
 			msg+= i.toString()+"\n";
 		return msg;
+	}
+	
+	public int hashCode() {
+		return id;
+	}
+	
+	public Canje clone() {
+		Canje copia = new Canje();
+		copia.setFecha(this.fecha);
+		copia.setId(this.id);
+		copia.setUsuario(this.usuario);
+		HashSet<Item> itemsCopiados = new HashSet<Item>();
+		Item itemCopia;
+		for(Item i : this.items) {
+			itemCopia = i.clone();
+			itemCopia.setCanje(copia);
+			itemsCopiados.add(itemCopia);
+		}
+		copia.setItems(itemsCopiados);
+		
+		return copia;
 	}
 	
 }

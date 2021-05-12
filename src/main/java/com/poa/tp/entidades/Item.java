@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="item")
 @Table(name="item")
-public class Item {
+public class Item implements Cloneable{
 	
 	@JsonIgnore
 	@EmbeddedId
@@ -80,6 +80,19 @@ public class Item {
 	
 	public String toString() {
 		return "Item: "+producto.toString()+" - "+cantidad;
+	}
+	
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
+	public Item clone() {
+		Item copia = new Item();
+		copia.setProducto(this.producto);
+		copia.setCanje(this.canje);
+		copia.setId(this.id);
+		copia.setCantidad(this.cantidad);
+		return copia;
 	}
 	
 }
