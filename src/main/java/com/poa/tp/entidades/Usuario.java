@@ -3,13 +3,41 @@ package com.poa.tp.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+@Entity(name="usuario")
+@Table(name="usuario")
 public class Usuario {
 	
+	@Id
+	@GeneratedValue
+	@Column(name="id_usuario")
 	private int id;
+	
+	@Column(name="nombre")
 	private String nombre;
+	
+	@JsonIgnore
+	@Column(name="contrasena")
 	private String contrasena;
+	
+	@Column(name="puntos")
 	private int puntos;
+	
+	@Column(name="correo")
 	private String correo;
+	
+	@JsonIgnoreProperties({"items"})
+	@OneToMany(mappedBy="usuario")
 	private List<Canje> canjes;
 	
 	public Usuario(){
