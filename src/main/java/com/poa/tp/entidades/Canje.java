@@ -31,8 +31,9 @@ public class Canje implements Cloneable{
 	@Column(name="fecha")
 	private Date fecha;
 	
+	//Remove quita la relacion si el usuario es eliminado (si se va un usuario me gustaria saber que productos se venden mas)
 	@JsonIgnore
-	@ManyToOne(optional=false,cascade=CascadeType.ALL)
+	@ManyToOne(optional=true,cascade=CascadeType.REMOVE) 
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 	
