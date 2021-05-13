@@ -13,7 +13,7 @@ public interface Dao<T> {
 	
 	T insert(T o) throws CrudException;
 	T update(T o) throws CrudException;
-	T delete(T o) throws CrudException;
+	T delete(int id) throws CrudException;
 	T get(int id) throws CrudException;
 	//el offset no es inclusivo, si el offset es 2, trae a partir del 3
 	List<T> getAll(int offset);

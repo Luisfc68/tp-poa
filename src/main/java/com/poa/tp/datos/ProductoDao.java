@@ -28,7 +28,6 @@ public class ProductoDao implements Dao<Producto>{
 			Transaction t = s.beginTransaction();
 			s.save(o);
 			t.commit();
-			s.close();
 			return o;
 		}catch(RollbackException e) {
 			throw new CrudException("El producto no cumple con las caracteristicas para ser registrado");
@@ -45,7 +44,6 @@ public class ProductoDao implements Dao<Producto>{
 			Transaction t = s.beginTransaction();
 			s.update(o);
 			t.commit();
-			s.close();
 			return o;
 		}catch(RollbackException e) {
 			throw new CrudException("La actualizacion no cumple con las reglas requeridas para ser realizada");
@@ -55,19 +53,19 @@ public class ProductoDao implements Dao<Producto>{
 		}
 	}
 
-	public Producto delete(Producto o) throws CrudException {
+	public Producto delete(int id) throws CrudException {
 		Session s = null;
 		try {
 			s = sf.openSession();
 			Transaction t = s.beginTransaction();
-			Object persistentInstance = s.load(Producto.class, o.getId());
-			Producto borrado = ((Producto)persistentInstance).clone();
-			s.delete(persistentInstance);
+			Producto original = s.load(Producto.class, id); 
+			Producto borrado = original.clone(); //esto porque despues el delete me borra el original y no tengo como devolverlo
+			s.delete(original);
 			t.commit();
 			return borrado;
 		}catch(EntityNotFoundException e) {
 			throw new CrudException("El producto que se ha intentado borrar no existe");
-		}catch(RollbackException E) { 
+		}catch(RollbackException e) { 
 			throw new CrudException("No es posible borrar este producto");
 		}finally{
 			if(s!=null)
