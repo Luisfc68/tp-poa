@@ -31,16 +31,17 @@ public class Canje implements Cloneable{
 	@Column(name="fecha")
 	private Date fecha;
 	
-	//Remove quita la relacion si el usuario es eliminado (si se va un usuario me gustaria saber que productos se venden mas)
 	@JsonIgnore
-	@ManyToOne(optional=true,cascade=CascadeType.REMOVE) 
+	@ManyToOne(optional=true) 
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy="canje",fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="canje",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private Set<Item> items;
 	
-	public Canje() {}
+	public Canje() {
+		this.items = new HashSet<Item>();
+	}
 	
 	public Canje(Usuario usuario, Set<Item> items) {
 		this.usuario = usuario;

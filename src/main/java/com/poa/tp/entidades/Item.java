@@ -1,6 +1,5 @@
 package com.poa.tp.entidades;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -24,20 +23,22 @@ public class Item implements Cloneable{
 	private int cantidad;
 	
 	@JsonIgnore
-	@ManyToOne(optional=false,cascade=CascadeType.ALL)
-	@MapsId("id_canje")
+	@ManyToOne(optional=false)
+	@MapsId("idCanje")
 	@JoinColumn(name="id_canje")
 	private Canje canje;
 	
 	@JsonIgnoreProperties({"stock","costo"})
-	@ManyToOne(optional=false,cascade=CascadeType.ALL)
-	@MapsId("id_producto")
+	@ManyToOne(optional=false)
+	@MapsId("idProducto")
 	@JoinColumn(name="id_producto")
 	private Producto producto;
 	
 	public Item() {}
 	
 	public Item(Producto producto, int cantidad) {
+		this.id = new IdItem();
+		id.setIdProducto(producto.getId());
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
@@ -59,6 +60,7 @@ public class Item implements Cloneable{
 	}
 
 	public void setCanje(Canje canje) {
+		id.setIdCanje(canje.getId());
 		this.canje = canje;
 	}
 
@@ -89,8 +91,8 @@ public class Item implements Cloneable{
 	public Item clone() {
 		Item copia = new Item();
 		copia.setProducto(this.producto);
+		copia.setId(this.id.clone());
 		copia.setCanje(this.canje);
-		copia.setId(this.id);
 		copia.setCantidad(this.cantidad);
 		return copia;
 	}

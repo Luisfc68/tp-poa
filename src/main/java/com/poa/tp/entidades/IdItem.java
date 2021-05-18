@@ -7,12 +7,12 @@ import javax.persistence.Embeddable;
 
 @SuppressWarnings("serial")
 @Embeddable
-public class IdItem implements Serializable{
+public class IdItem implements Serializable,Cloneable{
 
-	@Column(name="id_producto")
+	@Column(name="id_producto",updatable=false)
 	private int idProducto;
 	
-	@Column(name="id_canje")
+	@Column(name="id_canje",updatable=false)
 	private int idCanje;
 	
 	
@@ -35,6 +35,13 @@ public class IdItem implements Serializable{
 		resultado += 31*resultado + Integer.hashCode(idCanje);
 		
 		return resultado;
+	}
+	
+	public IdItem clone() {
+		IdItem copia = new IdItem();
+		copia.setIdCanje(this.idCanje);
+		copia.setIdProducto(this.idProducto);
+		return copia;
 	}
 
 	public int getIdProducto() {

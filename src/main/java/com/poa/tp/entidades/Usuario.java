@@ -3,6 +3,7 @@ package com.poa.tp.entidades;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,8 +38,9 @@ public class Usuario implements Cloneable{
 	@Column(name="correo")
 	private String correo;
 	
+	//Detach quita la relacion si el usuario es eliminado (si se va un usuario me gustaria saber que productos se venden mas)
 	@JsonIgnoreProperties({"items"})
-	@OneToMany(mappedBy="usuario",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="usuario",fetch=FetchType.EAGER,cascade=CascadeType.DETACH)
 	private Set<Canje> canjes;
 	
 	public Usuario(){
