@@ -56,6 +56,7 @@ public class ProductoDao implements Dao<Producto>{
 	public Producto delete(int id) throws CrudException {
 		Session s = null;
 		try {
+			
 			s = sf.openSession();
 			Transaction t = s.beginTransaction();
 			Producto original = s.load(Producto.class, id); 
@@ -63,6 +64,7 @@ public class ProductoDao implements Dao<Producto>{
 			s.delete(original);
 			t.commit();
 			return borrado;
+			
 		}catch(EntityNotFoundException e) {
 			throw new CrudException("El producto que se ha intentado borrar no existe");
 		}catch(RollbackException e) { 

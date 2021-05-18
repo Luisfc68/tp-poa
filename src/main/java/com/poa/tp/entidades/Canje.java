@@ -37,7 +37,7 @@ public class Canje implements Cloneable{
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy="canje",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="canje",fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
 	private Set<Item> items;
 	
 	public Canje() {}
@@ -80,6 +80,8 @@ public class Canje implements Cloneable{
 
 	public void setId(int id) {
 		this.id = id;
+		for(Item i : items)
+			i.setCanje(this);
 	}
 
 	public Date getFecha() {
@@ -104,6 +106,8 @@ public class Canje implements Cloneable{
 
 	public void setItems(Set<Item> items) {
 		this.items = items;
+		for(Item i : items)
+			i.setCanje(this);
 	}
 	
 	public String toString() {
