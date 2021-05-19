@@ -9,7 +9,7 @@ import com.poa.tp.excepciones.CrudException;
 @Repository
 public interface Dao<T> {
 	
-	static final int LIMITE_PAGINA = 10;
+	static final int LIMITE_PAGINA = 5;
 	
 	T insert(T o) throws CrudException;
 	T update(T o) throws CrudException;
