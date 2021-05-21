@@ -26,8 +26,8 @@ public class ProductoController {
 	@Autowired
 	private CustomErrorService errorService;
 	
-	@GetMapping(params="offset")
-	public ResponseEntity<List<Producto>> getProductos(@RequestParam(defaultValue="0") int offset) {
+	@GetMapping
+	public ResponseEntity<List<Producto>> getProductos(@RequestParam(value="offset",defaultValue="0") int offset) {
 		List<Producto> productos = productoDao.getAll(offset);
 		return ResponseEntity.ok(productos);
 	}

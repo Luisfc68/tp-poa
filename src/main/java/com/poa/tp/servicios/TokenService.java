@@ -19,7 +19,7 @@ public class TokenService {
 	
 	private static TokenService instance;
 	private final SecretKey tokenKey;
-	private static final long DURACION_MS = 60000;
+	private static final long DURACION_MS = 1000 * 60 * 5;// ms * s * m para cambiar los minutos solo hay que tocar el ultimo numero
 	private final String prefijo;
 	
 	private TokenService() {
