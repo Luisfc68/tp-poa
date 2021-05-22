@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.poa.tp.entidades.Usuario;
+import com.poa.tp.seguridad.ConstantesSeguridad;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -68,6 +69,12 @@ public class TokenService {
 		if (header != null && header.startsWith(prefijo))
 			return true;
 		return false;
+	}
+	
+	public String extraerSujetoToken(HttpServletRequest request) {
+		if(tieneToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request))
+			return parsearToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request).getSubject();
+		return null;
 	}
 	
 }

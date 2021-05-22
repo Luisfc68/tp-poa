@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.poa.tp.datos.IUsuarioDao;
 import com.poa.tp.entidades.Usuario;
 import com.poa.tp.excepciones.CrudException;
-import com.poa.tp.seguridad.ConstantesSeguridad;
 import com.poa.tp.servicios.CustomErrorService;
 import com.poa.tp.servicios.TokenService;
 
@@ -58,7 +57,7 @@ public class UsuarioController {
 	@GetMapping
 	public ResponseEntity<Object> getUsuario(HttpServletRequest request){
 		try {
-			return ResponseEntity.ok(usuarioDao.getByName(getUsuarioDelToken(request)));
+			return ResponseEntity.ok(usuarioDao.getByName(tokenService.extraerSujetoToken(request)));
 		} catch (CrudException e) {
 			System.err.println(e.getMessage());
 			return errorService.send(HttpStatus.NOT_FOUND, e.getMessage());
@@ -73,12 +72,6 @@ public class UsuarioController {
 			e.printStackTrace();
 			return errorService.send(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-	}
-	
-	private String getUsuarioDelToken(HttpServletRequest request) {
-		if(tokenService.tieneToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request))
-			return tokenService.parsearToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request).getSubject();
-		return null;
 	}
 	
 }
