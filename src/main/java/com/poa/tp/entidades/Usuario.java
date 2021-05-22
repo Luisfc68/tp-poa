@@ -12,8 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 
 @Entity(name="usuario")
@@ -28,7 +29,7 @@ public class Usuario implements Cloneable{
 	@Column(name="nombre")
 	private String nombre;
 	
-	@JsonIgnore
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name="contrasena")
 	private String contrasena;
 	

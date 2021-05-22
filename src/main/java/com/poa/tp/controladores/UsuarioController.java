@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.poa.tp.datos.IUsuarioDao;
@@ -34,11 +34,15 @@ public class UsuarioController {
 	private TokenService tokenService;
 	
 	@PostMapping(path="/login")
-	public ResponseEntity<Object> login(@RequestParam("usuario") String nombre, @RequestParam("clave") String clave){
+	public ResponseEntity<Object> login(@RequestBody Usuario enviado){
 		try {
-			Usuario usuario = usuarioDao.getByName(nombre);
 			
-			if(!usuario.getContrasena().equals(clave) || !usuario.getNombre().equals(nombre))
+			if(enviado.getNombre() == null || enviado.getContrasena() == null)
+				return errorService.send(HttpStatus.BAD_REQUEST, "Usuario o clave no enviados");
+			
+			Usuario usuario = usuarioDao.getByName(enviado.getNombre());
+			
+			if(!usuario.getContrasena().equals(enviado.getContrasena()))
 				return errorService.send(HttpStatus.FORBIDDEN, "Usuario o clave incorrectos");
 			
 			String token = tokenService.crearToken(usuario);
@@ -46,7 +50,7 @@ public class UsuarioController {
 			return ResponseEntity.ok(token);
 			
 		} catch (CrudException e) {
-			e.getMessage();
+			System.err.println(e.getMessage());
 			return errorService.send(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
@@ -56,7 +60,7 @@ public class UsuarioController {
 		try {
 			return ResponseEntity.ok(usuarioDao.getByName(getUsuarioDelToken(request)));
 		} catch (CrudException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 			return errorService.send(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
