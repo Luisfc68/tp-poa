@@ -77,4 +77,12 @@ public class TokenService {
 		return null;
 	}
 	
+	public Integer extraerIdToken(HttpServletRequest request) {
+		if(tieneToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request)) {
+			Integer id = Integer.parseInt(parsearToken(ConstantesSeguridad.TOKEN_HEADER.getValor(), request).getId());
+			return id;
+		}
+		return null;
+	}
+	
 }
