@@ -3,6 +3,7 @@ package com.poa.tp.datos;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 
 import org.hibernate.Session;
@@ -16,7 +17,7 @@ import com.poa.tp.entidades.Canje;
 import com.poa.tp.excepciones.CrudException;
 
 @Repository
-public class CanjeDao implements Dao<Canje>{
+public class CanjeDao implements ICanjeDao{
 	
 	@Autowired
 	private SessionFactory sf;
@@ -97,6 +98,37 @@ public class CanjeDao implements Dao<Canje>{
 		s.close();
 		
 		return canjes;
+	}
+
+	public List<Canje> getCanjesByUsuario(int id,int offset) {
+		
+		Session s = sf.openSession();
+		Query<Canje> q = s.createQuery("from canje where usuario.id="+id, Canje.class); 
+		q.setFirstResult(offset);
+		q.setMaxResults(LIMITE_PAGINA);
+		List<Canje> canjes = q.list();
+		s.close();
+		
+		return canjes;
+	}
+
+	public Canje getCanjeByUsuario(int idUsuario, int idCanje) throws CrudException{
+
+		Session s = null;
+		try {
+			
+			s = sf.openSession();
+			Query<Canje> q = s.createQuery("from canje where id="+idCanje+" and usuario.id="+idUsuario,Canje.class);
+			Canje canje = q.getSingleResult();
+			return canje;
+			
+		}catch(NoResultException e) {
+			throw new CrudException("El canje no existe");
+		}finally {
+			if(s!=null)
+				s.close();
+		}
+		
 	}
 
 }
