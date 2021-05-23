@@ -45,14 +45,14 @@ public class Item implements Cloneable{
 		this.id = new IdItem();
 		id.setIdProducto(producto.getId());
 		this.producto = producto;
-		this.cantidad = cantidad;
+		setCantidad(cantidad);
 	}
 	
 	@JsonCreator //Este constructor funciona como receptor para los post
 	public Item(@JsonProperty("producto")int idProducto,@JsonProperty("cantidad")int cantidad) {
 		this.id = new IdItem();
 		this.id.setIdProducto(idProducto);
-		this.cantidad = cantidad;
+		setCantidad(cantidad);
 	}
 
 	public int getValor() {
@@ -64,6 +64,8 @@ public class Item implements Cloneable{
 	}
 
 	public void setCantidad(int cantidad) {
+		if(cantidad<0)
+			throw new IllegalArgumentException("Cantidad solicitada invalida");
 		this.cantidad = cantidad;
 	}
 
