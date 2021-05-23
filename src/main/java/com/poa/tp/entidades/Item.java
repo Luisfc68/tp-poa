@@ -8,8 +8,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name="item")
 @Table(name="item")
@@ -28,10 +30,11 @@ public class Item implements Cloneable{
 	@JoinColumn(name="id_canje")
 	private Canje canje;
 	
-	@JsonIgnoreProperties({"stock","costo"})
 	@ManyToOne(optional=false)
 	@MapsId("idProducto")
 	@JoinColumn(name="id_producto")
+	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class,property="id")
+	@JsonIdentityReference(alwaysAsId=true)
 	private Producto producto;
 	
 	public Item() {}
