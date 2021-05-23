@@ -8,9 +8,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name="item")
@@ -43,6 +45,13 @@ public class Item implements Cloneable{
 		this.id = new IdItem();
 		id.setIdProducto(producto.getId());
 		this.producto = producto;
+		this.cantidad = cantidad;
+	}
+	
+	@JsonCreator //Este constructor funciona como receptor para los post
+	public Item(@JsonProperty("producto")int idProducto,@JsonProperty("cantidad")int cantidad) {
+		this.id = new IdItem();
+		this.id.setIdProducto(idProducto);
 		this.cantidad = cantidad;
 	}
 

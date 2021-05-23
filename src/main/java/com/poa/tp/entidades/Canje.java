@@ -43,8 +43,9 @@ public class Canje implements Cloneable{
 		this.items = new HashSet<Item>();
 	}
 	
-	public Canje(Usuario usuario, Set<Item> items) {
+	public Canje(Usuario usuario, Set<Item> items,Date fecha) {
 		this.usuario = usuario;
+		this.fecha = fecha;
 		this.items = items;
 		for(Item i : items)
 			i.setCanje(this);
@@ -64,15 +65,14 @@ public class Canje implements Cloneable{
 		return true;
 	}
 	
-	public boolean canjear() throws NoStockException, UsuarioPobreException {
+	public void canjear() throws NoStockException, UsuarioPobreException {
 		if(!hayStock())
-			throw new NoStockException(this);
+			throw new NoStockException();
 		else if(getTotal()>usuario.getPuntos())
 			throw new UsuarioPobreException(usuario);
 		
 		usuario.setPuntos(usuario.getPuntos()-getTotal());
 		usuario.addCanje(this);
-		return true;
 	}
 
 	public int getId() {
