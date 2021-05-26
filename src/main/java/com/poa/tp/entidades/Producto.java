@@ -28,7 +28,7 @@ public class Producto implements Cloneable{
 
 	public Producto(int id, int costo, String descripcion, boolean stock) {
 		this.id = id;
-		this.costo = costo;
+		setCosto(costo);
 		this.descripcion = descripcion;
 		this.stock = stock;
 	}
@@ -46,6 +46,8 @@ public class Producto implements Cloneable{
 	}
 
 	public void setCosto(int costo) {
+		if(costo<0)
+			throw new IllegalArgumentException();
 		this.costo = costo;
 	}
 
@@ -72,6 +74,15 @@ public class Producto implements Cloneable{
 		copia.setDescripcion(this.descripcion);
 		copia.setStock(this.stock);
 		return copia;
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Producto) {
+			Producto p = (Producto)o;
+			if(p.getCosto() == costo && p.isStock() == stock && p.getDescripcion().equals(descripcion) && p.getId() == id)
+				return true;
+		}
+		return false;
 	}
 	
 	public String toString() {
