@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.poa.tp.utils.CustomError;
+
 @Service
 public class CustomErrorService {
 	
