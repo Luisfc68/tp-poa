@@ -37,6 +37,10 @@ public class IdItem implements Serializable,Cloneable{
 		return resultado;
 	}
 	
+	public String toString() {
+		return "canje = "+idCanje+" prod = "+idProducto;
+	}
+	
 	public IdItem clone() {
 		IdItem copia = new IdItem();
 		copia.setIdCanje(this.idCanje);
