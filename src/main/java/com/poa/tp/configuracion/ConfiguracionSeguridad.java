@@ -25,6 +25,7 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter{
 			.addFilterAfter(new JWTFiltro(tokenService), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, ConstantesSeguridad.RUTA_LOGIN.getValor()).permitAll()
+			.antMatchers(HttpMethod.POST, ConstantesSeguridad.RUTA_SIGN_UP.getValor()).permitAll()
 			.anyRequest().authenticated();
 			authenticationManager();
 	}

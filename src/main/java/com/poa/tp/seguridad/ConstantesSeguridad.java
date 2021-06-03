@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 public enum ConstantesSeguridad {
 	
 	RUTA_LOGIN("/usuario/login"),
+	RUTA_SIGN_UP("/usuario/signup"),
 	TOKEN_HEADER("Authorization"),
 	TOKEN_KEY(Base64.getEncoder().encodeToString(Keys.secretKeyFor(SignatureAlgorithm.HS256).getEncoded())),
 	TOKEN_PREFIX("Bearer ");

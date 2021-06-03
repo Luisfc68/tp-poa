@@ -1,5 +1,8 @@
 package com.poa.tp.controladores;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +74,26 @@ public class UsuarioController {
 		} catch (CrudException e) {
 			e.printStackTrace();
 			return errorService.send(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+	
+	@PostMapping("/signup")
+	public ResponseEntity<Object> signUp(@RequestBody Usuario enviado){
+		
+		try {
+			
+			if(enviado.getNombre() == null || enviado.getContrasena() == null || enviado.getCorreo() == null)
+				return errorService.send(HttpStatus.BAD_REQUEST, "Datos faltantes");
+			
+			usuarioDao.insert(enviado);
+			
+			return ResponseEntity.created(new URI("/usuario/"+enviado.getId())).body(enviado);
+			
+		} catch(CrudException e) {
+			return errorService.send(HttpStatus.CONFLICT, e.getMessage());
+		}catch (URISyntaxException e) {
+			e.printStackTrace(); //no va a ocurrir porque esta hardcodeado
+			return null;
 		}
 	}
 	

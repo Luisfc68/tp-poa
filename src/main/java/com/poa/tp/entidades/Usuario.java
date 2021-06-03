@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -55,6 +56,15 @@ public class Usuario implements Cloneable{
 		this.contrasena = contrasena;
 		this.puntos = puntos;
 		this.correo = correo;
+	}
+	
+	@JsonCreator
+	public Usuario(String nombre, String contrasena,String correo) { //para usuarios nuevos
+		this();
+		this.nombre = nombre;
+		this.contrasena = contrasena;
+		this.correo = correo;
+		this.puntos = 100;
 	}
 	
 	public void addCanje(Canje c) {
