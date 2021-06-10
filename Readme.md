@@ -32,5 +32,7 @@ Los endpoints con los que cuenta el trabajo son los siguienes, todos están prot
 
 * /productos (get): endpoint para que un usuario pueda ver todos los productos. Como devuelve un vector de productos, está paginado, por lo que se le puede indicar el offset en la url al igual que en el endpoint de canjes. En este caso el offset por defecto también es 0.
 
+#### Diagrama de clases
 
+El [diagrama de clases](https://drive.google.com/file/d/1mnNqPR6R0K-qvdim6U9_lLkz7NYF8are/view?usp=sharing) lo puse en google drive porque es muy ancho como para ponerlo aquí.
 

@@ -137,7 +137,9 @@ public class TestDaos {
 				}
 			});
 			
-			for(int i = 0; i<Dao.LIMITE_PAGINA; i++) {
+			int cantidad = (canjesLuis.size()>Dao.LIMITE_PAGINA)? Dao.LIMITE_PAGINA : canjesLuis.size();
+			
+			for(int i = 0; i<cantidad; i++) {
 				
 				List<Item> itemsLuis = new ArrayList<Item>(canjesLuis.get(i).getItems());
 				List<Item> items = new ArrayList<Item>(canjes.get(i).getItems());
